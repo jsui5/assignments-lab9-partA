@@ -11,6 +11,7 @@
     <p>How many buttons to create?</p>
     <input type="text" id="textId"> <br>
     <input type="button" id="buttonId" value="Go!"> <br>
+    <p id="result"></p>
     <script>
         let arrayButtons = [];
         let btnHeight = 60;
@@ -29,26 +30,6 @@
             };
         };
 
-        function onClickHander() {
-            let numOfBtn = document.getElementById("textId").value
-            for (n = 0; n < numOfBtn; n++) {
-                let windowWidth = window.innerWidth
-                    || document.documentElement.clientWidth
-                    || document.body.clientWidth;
-                let windowHeight = window.innerHeight
-                    || document.documentElement.clientHeight
-                    || document.body.clientHeight;
-                let btnColor = "rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")";
-                let btnLeft = Math.floor(Math.random() * (windowWidth - btnWidth));
-                let btnTop = Math.floor(Math.random() * (windowHeight - btnHeight));
-                let btn = new button(btnColor, btnWidth + "px", btnHeight + "px")
-                btn.spawnLocation(btnLeft + "px", btnTop + "px")
-                arrayButtons.push(btn)
-            };
-        };
-
-        document.getElementById("buttonId").onclick = onClickHander
-
         function newLocation() {
             for (i = 0; i < arrayButtons.length; i++) {
                 let windowWidth = window.innerWidth
@@ -64,10 +45,34 @@
         };
 
         function move() {
+            document.getElementById("buttonId").onclick = gameLogic
             setInterval(
                 newLocation, 2000
             )
         };
+
+        function gameLogic() {
+            let numOfBtn = document.getElementById("textId").value
+            if (numOfBtn >= 5 && numOfBtn <= 100) {
+                for (n = 0; n < numOfBtn; n++) {
+                    let windowWidth = window.innerWidth
+                        || document.documentElement.clientWidth
+                        || document.body.clientWidth;
+                    let windowHeight = window.innerHeight
+                        || document.documentElement.clientHeight
+                        || document.body.clientHeight;
+                    let btnColor = "rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")";
+                    let btnLeft = Math.floor(Math.random() * (windowWidth - btnWidth));
+                    let btnTop = Math.floor(Math.random() * (windowHeight - btnHeight));
+                    let btn = new button(btnColor, btnWidth + "px", btnHeight + "px")
+                    btn.spawnLocation(btnLeft + "px", btnTop + "px")
+                    arrayButtons.push(btn)
+                };
+            } else {
+                document.getElementById("result").innerHTML = "Please enter a number between 5 and 100."
+            }
+        }
+
 
         move()
 
